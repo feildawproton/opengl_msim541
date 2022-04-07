@@ -58,6 +58,40 @@ glEnable(GL_TEXTURE_2D); //
 
 		glEnd();
   The above just maps the corners of the image to the corners of the quad that makes up the billboard.  The billboard below shows an image of a rabbit and man jousting.  I’m pretending it’s a movie poster:
+  
+  ![image](https://user-images.githubusercontent.com/56926839/162271352-bb104d04-15ef-48c5-8294-6ae9e69732a0.png)
+There are default values for location, orientation, and size.  The set commands are optional. The following is what is needed (with set calls) to set up the jousting rabbit billboard:
+bill1.ReadFile("Models/joust.ppm");
+	Vector3 bill1Loc = { 15, 4, -70 };
+	bill1.SetLocation(bill1Loc);
+	bill1.SetOrientation(-45);
+	bill1.SetSize(12, 6);
+I have billboards advertising the jousting movie, Bingham Bows (archery designs), Abarth (Fiat car company), and the R9 390 (AMD):
+
+![image](https://user-images.githubusercontent.com/56926839/162271400-58ec084b-7755-4ba0-8cd9-81ad459f310b.png)
+
+## Extra Credit: Live Billboards
+
+I Derived a class from Billboard called MultiBillboard.  Changed Billboard’s private members to protected so that we can access then from derived classes.  I included glew (in billboard base class and removed glut(not needed here)) to use the active texture function from the provided example.  I used a vector to store the texture numbers.  I added a variablesfor transition time and alpha (alphaCounter).  Inside draw I unbound the textures, and returned the active one to TEXTURE0:
+glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		glActiveTexture(GL_TEXTURE0);
+I did this to avoid using texture 1 later and to return the default texture 0 back on for use by other objects.  On this class you can call ReadFile() repeatedly to add textures.  Each texture is named by a GLuint and this added to the vector via:
+textureNumbers.push_back(texNum);
+
+Where texNum is the GLuint assigned to that texture.  I added an update function that is called from the simulations update to run the counter.  When the counter reaches 1 it starts over.  Alpha for a black color tied to the second image (img1) is reduced by this amoumt (from starting value of 1).  The following is a video of the billboard working.  My apologies for the watermark, I did not know it would have one until after I installed the movavi software:
+![image](https://user-images.githubusercontent.com/56926839/162271488-17c6a5e0-c24d-4ef7-ba97-eb317b2dea9e.png)
+
+The billboard shows bows built by Bingham customers.  Adding these images to the billboard only required calling ReadFile() multiple times (mBoard is the billboard with bows):
+mBoard.ReadFile("Models/bow2.ppm");
+	mBoard.ReadFile("Models/bow1.ppm");
+	mBoard.ReadFile("Models/bow3.ppm");
+	mBoard.ReadFile("Models/bow4.ppm");
+
+## 3.3
 
 
 
