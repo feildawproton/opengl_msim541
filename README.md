@@ -32,3 +32,7 @@ vi.	Simulation
 vii.	TrafficLight
 viii.	TransportSimulation
 ix.	utility
+ix.	utility
+B.	Functional Block Diagram
+![image](https://user-images.githubusercontent.com/56926839/162270367-922b6481-3928-4935-a08c-1ff8b0a15224.png)
+
